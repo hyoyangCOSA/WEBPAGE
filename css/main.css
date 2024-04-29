@@ -1,0 +1,112 @@
+    body{
+        background-color: black;
+        margin: 0;   
+    }
+    body>div>img{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 100%;
+    }
+    a{
+        text-decoration:none;
+        color: black;
+    }
+    #header{
+        background-color:#ffffff;
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        margin-top: 0.5vh;
+    }
+    #header>ul{
+        display: flex;
+        justify-content: space-around;
+        list-style-type: none;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        height: 5vh;
+        line-height: 5vh;
+    }
+    #header>ul>li{  
+        flex: 1 1 0;
+        font-family: 'IAMAPLAYER';
+        padding-left:0px;
+    }
+    #header:hover{
+        transition: ease-in, 0.3s;
+        -webkit-transition: ease-in, 0.3s;
+        background-color: black;
+    }
+    #header:not(:hover){
+        transition: ease-in, 0.3s;
+        -webkit-transition: ease-in, 0.3s;
+        background-color: white;
+    }
+    #header:hover .header_item>a{
+        color: white;
+    }
+    .header_item{
+        /*background-color: #ffffff;*/
+        -webkit-transition: ease-in, 0.3s;
+        transition: ease-in, 0.3s;
+
+    }/*
+    .header_item>a:hover{
+        
+    }*/
+
+    #topic{
+        color: white;
+        font-family: 'SCoreDream-500';
+        background: linear-gradient(rgb(0, 0, 0), rgb(126, 126, 126));
+        height: 100vh;
+    }
+    .topic_item{
+        padding-left:5vw;
+    }
+
+    #topic>p>a{
+        color: white;
+        font-family: 'SCoreDream-200';
+        border-style: solid;
+        border-color:white;
+        border-inline-color: lightgray ;
+        border-radius: 0.5vw;
+        padding: 0.5vw;
+        transition: ease-in, 0.2s;
+    }
+    #topic>p>a:hover{
+        background-color: white;
+        color: black;
+    }
+
+
+    @media all and (max-width:767px) {
+        #header>ul>li{
+            font-size: 20px;
+            position: relative;
+            top: 0%;
+        }
+        #topic{
+            font-size: 25px;
+        }
+        #topic>p>a{
+            font-size: 10px;
+        }
+    }/*휴대폰*/
+
+
+    @media all and (min-width:768px) {
+        #header>ul>li{
+            font-size: 50px;
+            position: relative;
+            top: 0%;
+        }
+        #topic{
+            font-size: 40px;
+        }
+        #topic>p>a{
+            font-size: 20px;
+        }
+    }/*데스크탑*/
