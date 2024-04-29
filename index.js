@@ -4,6 +4,7 @@ const url = require('url');
 const qs = require('querystring');
 const path = require('path');
 const { info } = require('console');
+const { send } = require('process');
 
 function templateHTML(title, css, img, topic_item){
     
@@ -72,7 +73,9 @@ var app = http.createServer(function(req, res){
         res.end(templateHTML(title, readCSS(), img, topic_item));
     }
     function senderr(){
-
+        alert('error is happen');
+        res.writeHead(302, {location: `/?id=HOME`});
+        res.end();
     }
 
     let _url = req.url
@@ -104,10 +107,9 @@ var app = http.createServer(function(req, res){
                 topic_item.push("asdfasdfasfd");
             }
             else if(queryData.id === undefined){
-                res.writeHead(302, {location: `/?id=HOME`});
-                res.end();
+                senderr();
             }else{
-                topic_item.push('ERROR 404');
+                senderr();
             }
             res.writeHead(200);
             res.end(templateHTML(title, readCSS(), img, topic_item));
