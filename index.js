@@ -3,8 +3,23 @@ const fs = require('fs');
 const url = require('url');
 const qs = require('querystring');
 const path = require('path');
-const { info } = require('console');
+const axios = require('axios');
+const cheerio = require("cheerio");
+const { info, error } = require('console');
 const { send } = require('process');
+let lunchmenu;
+let dinnermenu;
+let today = new Date();
+let Year = today.getFullYear();
+let Month = today.getMonth() + 1;
+let Day = today.getDate();
+let todayurl = `https://hyoyang.goeic.kr/meal/view.do?menuId=9562&year=${Year}&month=${Month}&day=${Day}`;
+
+
+
+
+
+
 
 function templateHTML(title, css, img, topic_item){
     
@@ -67,19 +82,49 @@ function readtopic(){
 }
 
 var app = http.createServer(function(req, res){
-
+    
     let _url = req.url
     let queryData = url.parse(_url, true).query;
     let title = queryData.id;
     let pathname = url.parse(_url, true).pathname;
     if(pathname === '/'){
         fs.readFile('index.html', 'utf8', (err, data)=>{
+            
+            //메뉴 가져오기
+            const getHtmltodaymenu = async () => {
+                try{
+                    return await axios.get(todayurl);
+                } catch(err){
+                    console.log(error);
+                }
+            }
+            getHtmltodaymenu()
+             .then(html => {
+                let menullist = [];
+                const $ = cheerio.load(html.data);
+                let $lunchmenu = $("#form > div > table > tbody > tr:nth-child(1) > td:nth-child(3) > span");
+                let $dinnermenu = $("#form > div > table > tbody > tr:nth-child(2) > td:nth-child(3) > span");
+                lunchmenu = $lunchmenu.text();
+                dinnermenu = $dinnermenu.text();
+                
+                lunchmenu = lunchmenu.replace(/\s/g, "").replace(/\d/g, '').replace(/\./g, "").replace(/\"/g, "").replace(/\(|\)/g, '').split("ㆍ");
+                lunchmenuS = new Set(lunchmenu);
+                lunchmenu = [...lunchmenuS];
+                lunchmenu = lunchmenu.join("<br>");
+        
+                dinnermenu = dinnermenu.replace(/\s/g, "").replace(/\d/g, '').replace(/\./g, "").replace(/\"/g, "").replace(/\(|\)/g, '').split("ㆍ");
+                dinnermenuS = new Set(dinnermenu);
+                dinnermenu = [...dinnermenuS];
+                dinnermenu = dinnermenu.join("<br>");
+        
+            })        
             let img = `<img src="https://ifh.cc/g/NG2PS7.png" alt="banner">`;
             let topic_item = [];
             let title = "COSA-";
             if(queryData.id === "HOME"){
                 title += `${queryData.id}`;
                 topic_item = readtopic();
+                topic_item.push(`<ul class="menu"><li style="font-size:40px;">오늘의 급식 →</li> <li>중식 : ${lunchmenu}</li><li>석식 : ${dinnermenu}</li></span>`);
                 res.writeHead(200);
                 res.end(templateHTML(title, readCSS(), img, topic_item));
             }       
@@ -100,7 +145,7 @@ var app = http.createServer(function(req, res){
             }
             else if(queryData.id === 'STUDY'){
                 title += `${queryData.id}`;
-                topic_item.push("asdfasdfasfd");    
+                topic_item.push("임시창");    
                 res.writeHead(200);
                 res.end(templateHTML(title, readCSS(), img, topic_item));
             }

@@ -1,7 +1,19 @@
 {
   "dependencies": {
+    "axios": "^1.6.8",
+    "cheerio": "^1.0.0-rc.12",
     "neo4j-driver": "^5.15.0",
     "node.js": "^0.0.1-security",
     "uuid": "^7.0.3"
-  }
+  },
+  "name": "webpage",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

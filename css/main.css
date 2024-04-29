@@ -81,6 +81,19 @@
         color: black;
     }
 
+    .menu{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        list-style-type: none;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+    }
+    .menu li{
+        margin: 0;
+        padding: 0;
+    }
 
     @media all and (max-width:767px) {
         #header>ul>li{
@@ -93,6 +106,9 @@
         }
         #topic>p>a{
             font-size: 10px;
+        }
+        .menu{
+            font-size: 20px;
         }
     }/*휴대폰*/
 
@@ -107,6 +123,9 @@
             font-size: 40px;
         }
         #topic>p>a{
+            font-size: 20px;
+        }
+        .menu{
             font-size: 20px;
         }
     }/*데스크탑*/
