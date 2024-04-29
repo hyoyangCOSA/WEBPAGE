@@ -94,7 +94,7 @@ var app = http.createServer(function(req, res){
             }
             else if(queryData.id === 'EVENT'){
                 title += `${queryData.id}`;
-                topic_item.push("COSA “최종 합격”을 축하드립니다!<br>면접보느라 정말 수고 많으셨습니다.<br>즐거운 1년 함께 보내면 좋겠습니다.<br>동아리 확정 문자는 금요일까지 연락 부탁드립니다.<br>동아리 참여 확정 연락은 “참여하겠습니다”로 부탁드립니다.");
+                topic_item.push("임시창");
                 res.writeHead(200);
                 res.end(templateHTML(title, readCSS(), img, topic_item));
             }
