@@ -68,16 +68,6 @@ function readtopic(){
 
 var app = http.createServer(function(req, res){
 
-    function sendtemplate(){
-        res.writeHead(200);
-        res.end(templateHTML(title, readCSS(), img, topic_item));
-    }
-    function senderr(){
-        alert('error is happen');
-        res.writeHead(302, {location: `/?id=HOME`});
-        res.end();
-    }
-
     let _url = req.url
     let queryData = url.parse(_url, true).query;
     let title = queryData.id;
@@ -90,6 +80,8 @@ var app = http.createServer(function(req, res){
             if(queryData.id === "HOME"){
                 title += `${queryData.id}`;
                 topic_item = readtopic();
+                res.writeHead(200);
+                res.end(templateHTML(title, readCSS(), img, topic_item));
             }       
             else if(queryData.id === 'INFO'){
                 title += `${queryData.id}`;
@@ -97,22 +89,28 @@ var app = http.createServer(function(req, res){
                 topic_item.push(`11년간의 전통을 자랑하는 컴퓨터 공학 동아리 COSA<br>
                 COSA의 CO는 Computer Science에서<br>
                 A는 Artifical intelligence에서 따왔습니다`);
+                res.writeHead(200);
+                res.end(templateHTML(title, readCSS(), img, topic_item));
             }
             else if(queryData.id === 'EVENT'){
                 title += `${queryData.id}`;
                 topic_item.push("COSA “최종 합격”을 축하드립니다!<br>면접보느라 정말 수고 많으셨습니다.<br>즐거운 1년 함께 보내면 좋겠습니다.<br>동아리 확정 문자는 금요일까지 연락 부탁드립니다.<br>동아리 참여 확정 연락은 “참여하겠습니다”로 부탁드립니다.");
+                res.writeHead(200);
+                res.end(templateHTML(title, readCSS(), img, topic_item));
             }
             else if(queryData.id === 'STUDY'){
                 title += `${queryData.id}`;
-                topic_item.push("asdfasdfasfd");
+                topic_item.push("asdfasdfasfd");    
+                res.writeHead(200);
+                res.end(templateHTML(title, readCSS(), img, topic_item));
             }
             else if(queryData.id === undefined){
-                senderr();
+                res.writeHead(302, {location: `/?id=HOME`});
+                res.end();
             }else{
-                senderr();
+                res.writeHead(404);
+                res.end("Not Found");
             }
-            res.writeHead(200);
-            res.end(templateHTML(title, readCSS(), img, topic_item));
         });
     } else { //Not found
         res.writeHead(404);
