@@ -66,6 +66,15 @@ function readtopic(){
 }
 
 var app = http.createServer(function(req, res){
+
+    function sendtemplate(){
+        res.writeHead(200);
+        res.end(templateHTML(title, readCSS(), img, topic_item));
+    }
+    function senderr(){
+
+    }
+
     let _url = req.url
     let queryData = url.parse(_url, true).query;
     let title = queryData.id;
@@ -98,8 +107,6 @@ var app = http.createServer(function(req, res){
             }
             else{
                 topic_item.push('ERROR 404');
-                res.writeHead(404);
-                res.end('ERROR 404');
             }
             res.writeHead(200);
             res.end(templateHTML(title, readCSS(), img, topic_item));
