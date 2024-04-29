@@ -13,12 +13,19 @@ let today = new Date();
 let Year = today.getFullYear();
 let Month = today.getMonth() + 1;
 let Day = today.getDate();
+
 let todayurl = `https://hyoyang.goeic.kr/meal/view.do?menuId=9562&year=${Year}&month=${Month}&day=${Day}`;
+console.log(todayurl);
 
 
 
-
-
+const getHtmltodaymenu = async () => {
+    try{
+        return await axios.get(todayurl);
+    } catch(err){
+        console.log(error);
+    }
+}
 
 
 function templateHTML(title, css, img, topic_item){
@@ -91,17 +98,11 @@ var app = http.createServer(function(req, res){
         fs.readFile('index.html', 'utf8', (err, data)=>{
             
             //메뉴 가져오기
-            const getHtmltodaymenu = async () => {
-                try{
-                    return await axios.get(todayurl);
-                } catch(err){
-                    console.log(error);
-                }
-            }
+            
             getHtmltodaymenu()
              .then(html => {
                 let menullist = [];
-                const $ = cheerio.load(html.data);
+                let $ = cheerio.load(html.data);
                 let $lunchmenu = $("#form > div > table > tbody > tr:nth-child(1) > td:nth-child(3) > span");
                 let $dinnermenu = $("#form > div > table > tbody > tr:nth-child(2) > td:nth-child(3) > span");
                 lunchmenu = $lunchmenu.text();
@@ -117,7 +118,8 @@ var app = http.createServer(function(req, res){
                 dinnermenu = [...dinnermenuS];
                 dinnermenu = dinnermenu.join("<br>");
         
-            })        
+            })       
+
             let img = `<img src="https://ifh.cc/g/NG2PS7.png" alt="banner">`;
             let topic_item = [];
             let title = "COSA-";

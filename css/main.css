@@ -102,13 +102,13 @@
             top: 0%;
         }
         #topic{
-            font-size: 25px;
+            font-size: 20px;
         }
         #topic>p>a{
             font-size: 10px;
         }
         .menu{
-            font-size: 20px;
+            font-size: 10px;
         }
         .menu:nth-child(0){
             font-size:25px;
@@ -116,7 +116,7 @@
     }/*휴대폰*/
 
 
-    @media all and (min-width:768px) {
+    @media all and (min-width:768px) and (max-width:1536px){
         #header>ul>li{
             font-size: 50px;
             position: relative;
@@ -130,6 +130,27 @@
         }
         .menu{
             font-size: 20px;
+        }
+        .menu:nth-child(0){
+            font-size:40px;
+        }
+    }/*태블릿*/
+
+
+    @media all and (min-width:1536px) and (max-width:5000px){
+        #header>ul>li{
+            font-size: 50px;
+            position: relative;
+            top: 0%;
+        }
+        #topic{
+            font-size: 50px;
+        }
+        #topic>p>a{
+            font-size: 40px;
+        }
+        .menu{
+            font-size: 30px;
         }
         .menu:nth-child(0){
             font-size:40px;
