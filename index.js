@@ -87,11 +87,7 @@ var app = http.createServer(function(req, res){
             if(queryData.id === "HOME"){
                 title += `${queryData.id}`;
                 topic_item = readtopic();
-            }
-            else if(queryData.id === undefined){
-                res.writeHead(302, {location: `/?id=HOME`});
-                res.end();
-            }
+            }       
             else if(queryData.id === 'INFO'){
                 title += `${queryData.id}`;
                 //img = null;
@@ -100,21 +96,23 @@ var app = http.createServer(function(req, res){
                 A는 Artifical intelligence에서 따왔습니다`);
             }
             else if(queryData.id === 'EVENT'){
+                title += `${queryData.id}`;
                 topic_item.push("COSA “최종 합격”을 축하드립니다!<br>면접보느라 정말 수고 많으셨습니다.<br>즐거운 1년 함께 보내면 좋겠습니다.<br>동아리 확정 문자는 금요일까지 연락 부탁드립니다.<br>동아리 참여 확정 연락은 “참여하겠습니다”로 부탁드립니다.");
             }
             else if(queryData.id === 'STUDY'){
+                title += `${queryData.id}`;
                 topic_item.push("asdfasdfasfd");
             }
-            else{
+            else if(queryData.id === undefined){
+                res.writeHead(302, {location: `/?id=HOME`});
+                res.end();
+            }else{
                 topic_item.push('ERROR 404');
             }
             res.writeHead(200);
             res.end(templateHTML(title, readCSS(), img, topic_item));
         });
-    } 
-    /*else if(){
-
-    } */else { //Not found
+    } else { //Not found
         res.writeHead(404);
         res.end("Not Found");
     }
