@@ -124,7 +124,7 @@ var app = http.createServer(function(req, res){
             if(queryData.id === "HOME"){
                 title += `${queryData.id}`;
                 topic_item = readtopic();
-                topic_item.push(`<ul class="menu"><li style="font-size:40px;">오늘의 급식 →</li> <li>중식 : ${lunchmenu}</li><li>석식 : ${dinnermenu}</li></span>`);
+                topic_item.push(`<ul class="menu"><li id="menu_introtext">오늘의 급식 →</li> <li>중식 : ${lunchmenu}</li><li>석식 : ${dinnermenu}</li></span>`);
                 res.writeHead(200);
                 res.end(templateHTML(title, readCSS(), img, topic_item));
             }       

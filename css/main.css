@@ -110,6 +110,9 @@
         .menu{
             font-size: 20px;
         }
+        .menu:nth-child(0){
+            font-size:25px;
+        }
     }/*휴대폰*/
 
 
@@ -127,5 +130,8 @@
         }
         .menu{
             font-size: 20px;
+        }
+        .menu:nth-child(0){
+            font-size:40px;
         }
     }/*데스크탑*/
