@@ -22,7 +22,7 @@ console.log(todayurl);
 const getHtmltodaymenu = async () => {
     try{
         return await axios.get(todayurl);
-    } catch(err){
+    } catch (err) {
         console.log(error);
     }
 }
@@ -89,7 +89,7 @@ function readtopic(){
 }
 
 var app = http.createServer(function(req, res){
-    
+    console.log(Year, Month, Day);
     let _url = req.url
     let queryData = url.parse(_url, true).query;
     let title = queryData.id;
@@ -105,6 +105,7 @@ var app = http.createServer(function(req, res){
                 let $ = cheerio.load(html.data);
                 let $lunchmenu = $("#form > div > table > tbody > tr:nth-child(1) > td:nth-child(3) > span");
                 let $dinnermenu = $("#form > div > table > tbody > tr:nth-child(2) > td:nth-child(3) > span");
+                
                 lunchmenu = $lunchmenu.text();
                 dinnermenu = $dinnermenu.text();
                 
@@ -112,21 +113,24 @@ var app = http.createServer(function(req, res){
                 lunchmenuS = new Set(lunchmenu);
                 lunchmenu = [...lunchmenuS];
                 lunchmenu = lunchmenu.join("<br>");
-        
+                fs.writeFileSync('todayLunchMenu.txt', lunchmenu);
                 dinnermenu = dinnermenu.replace(/\s/g, "").replace(/\d/g, '').replace(/\./g, "").replace(/\"/g, "").replace(/\(|\)/g, '').split("ㆍ");
                 dinnermenuS = new Set(dinnermenu);
                 dinnermenu = [...dinnermenuS];
                 dinnermenu = dinnermenu.join("<br>");
-        
+                //console.log(dinnermenu);
+                fs.writeFileSync('todayDinnerMenu.txt', dinnermenu);
             })       
-
+            
             let img = `<img src="https://ifh.cc/g/NG2PS7.png" alt="banner">`;
             let topic_item = [];
             let title = "COSA-";
             if(queryData.id === "HOME"){
                 title += `${queryData.id}`;
                 topic_item = readtopic();
-                topic_item.push(`<ul class="menu"><li id="menu_introtext">오늘의 급식 →</li> <li>중식 : ${lunchmenu}</li><li>석식 : ${dinnermenu}</li></span>`);
+                let todayLunchMenu = fs.readFileSync('todayLunchMenu.txt', 'utf8');
+                let todayDinnerMenu = fs.readFileSync('todayDinnerMenu.txt', 'utf8');
+                topic_item.push(`<ul class="menu"><li id="menu_introtext">오늘의 급식 →</li> <li>중식 : ${todayLunchMenu}</li><li>석식 : ${todayDinnerMenu}</li></span>`);
                 res.writeHead(200);
                 res.end(templateHTML(title, readCSS(), img, topic_item));
             }       
