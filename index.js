@@ -13,6 +13,10 @@ let today = new Date();
 let Year = today.getFullYear();
 let Month = today.getMonth() + 1;
 let Day = today.getDate();
+let Hour = today.getHours();
+let Minute = today.getMinutes();
+let Second = today.getSeconds();
+
 
 let todayurl = `https://hyoyang.goeic.kr/meal/view.do?menuId=9562&year=${Year}&month=${Month}&day=${Day}`;
 console.log(todayurl);
@@ -28,7 +32,7 @@ const getHtmltodaymenu = async () => {
 }
 
 
-function templateHTML(title, css, img, topic_item){
+function templateHTML(title, css, img, topic_item, topic1){
     
     for(let i = 0;i<topic_item.length;i++){
         topic_item[i] = `<p class="topic_item">${topic_item[i]}</p>`;
@@ -49,17 +53,19 @@ function templateHTML(title, css, img, topic_item){
     </head>
     <body>
         <div id="header">
+            <div>
+                <a href='https://postimg.cc/HrhP69jB' target='_blank' ><img src='https://i.postimg.cc/1RBKksRK/COSA.png' border='0' alt='COSA' id="header_img" /></a>
+            </div>
             <ul>
                 <li class="header_item"><a href="/?id=HOME">HOME</a></li>
                 <li class="header_item"><a href="/?id=INFO">INFO</a></li>
                 <li class="header_item"><a href="/?id=EVENT">EVENT</a></li>
                 <li class="header_item"><a href="/?id=STUDY">STUDY</a></li>
+                <li class="header_item"><a href="/?id=UPDATE">UPDATE</a></li>
             </ul>
         </div>
-        <div>
-            ${img}
-        </div>
         <div id="topic">
+            ${topic1}
             ${topic_item.join('')}
         </div>
             
@@ -78,18 +84,18 @@ function readCSS(){
     return css;
 }
 
-function readtopic(){
+function settopic(dir){
     let topic_item = [];
-    let topic_itemList = fs.readdirSync(`./topic_items`);
+    let topic_itemList = fs.readdirSync(`./${dir}`);
     for(let i = 0 ; i < topic_itemList.length ; i++){
-        var item = fs.readFileSync(`topic_items/${topic_itemList[i]}`, 'utf8');
+        var item = fs.readFileSync(`${dir}/${topic_itemList[i]}`, 'utf8');
         topic_item.push(item);
     }
     return topic_item;
 }
 
 var app = http.createServer(function(req, res){
-    console.log(Year, Month, Day);
+    
     let _url = req.url
     let queryData = url.parse(_url, true).query;
     let title = queryData.id;
@@ -127,12 +133,13 @@ var app = http.createServer(function(req, res){
             let title = "COSA-";
             if(queryData.id === "HOME"){
                 title += `${queryData.id}`;
-                topic_item = readtopic();
+                topic_item.push('test');
+                topic_item.push(settopic('topic_items'));
                 let todayLunchMenu = fs.readFileSync('todayLunchMenu.txt', 'utf8');
                 let todayDinnerMenu = fs.readFileSync('todayDinnerMenu.txt', 'utf8');
                 topic_item.push(`<ul class="menu"><li id="menu_introtext">오늘의 급식 →</li> <li>중식 : ${todayLunchMenu}</li><li>석식 : ${todayDinnerMenu}</li></span>`);
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item));
+                res.end(templateHTML(title, readCSS(), img, topic_item, `<p class="topic_time">Time of the Site : ${Year}-${Month}-${Day}</p>`));
             }       
             else if(queryData.id === 'INFO'){
                 title += `${queryData.id}`;
@@ -152,6 +159,12 @@ var app = http.createServer(function(req, res){
             else if(queryData.id === 'STUDY'){
                 title += `${queryData.id}`;
                 topic_item.push("임시창");    
+                res.writeHead(200);
+                res.end(templateHTML(title, readCSS(), img, topic_item));
+            }
+            else if(queryData.id === 'UPDATE'){
+                title += `${queryData.id}`;
+                topic_item = settopic('update_items');    
                 res.writeHead(200);
                 res.end(templateHTML(title, readCSS(), img, topic_item));
             }
