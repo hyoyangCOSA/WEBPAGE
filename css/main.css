@@ -1,26 +1,25 @@
     body{
-        background-color: black;
-        /*+background-size: cover;*/
+        background-color: rgb(0, 0, 0);
+        background-size: 100%, 100%;
+        width: 100vw;
+        height: 100vh;
         margin: 0;   
     }
     body>div>img{
         display: block;
-        margin-left: auto;
-        margin-right: auto;
+        width: 100%;
         max-width: 100%;
     }
     a{
         text-decoration:none;
-        color: rgb(255, 255, 255);
+        color: black;
     }
     #header{
-        backdrop-filter: blur(100px);
-        background-position: 50%, 50%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        padding-top: 1vh;
-        padding-bottom: 1vh;
-        margin-top: 0.5vh;
+        font-family: 'SCoreDream-500';
+        padding-top: 2%;
+        padding-bottom: 2%;
+        margin-top: 5vh;
+        margin-bottom: 5vh;
     }
     #header>ul{
         display: flex;
@@ -34,18 +33,20 @@
     }
     #header>ul>li{  
         flex: 1 1 0;
-        font-family: 'IAMAPLAYER';
+        font-family: 'SCoreDream-500';
         padding-left:0px;
     }
     #header>div{
         float: left;
         width: 50px;
         height: 50px;
+        color: white;
+        text-align: center;
     }
-    /*#header:hover{
+    #header:hover{
         transition: ease-in, 0.3s;
         -webkit-transition: ease-in, 0.3s;
-        background-color: rgba(0, 0, 0, 0);
+        background-color: rgba(0, 0, 0, 1);
     }
     #header:not(:hover){
         transition: ease-in, 0.3s;
@@ -54,17 +55,14 @@
     }
     #header:hover .header_item>a{
         color: white;
-    }*/
+    }
     .header_item{
         /*background-color: #ffffff;*/
         -webkit-transition: ease-in, 0.3s;
         transition: ease-in, 0.3s;
+        opacity: 0;
+    }
 
-    }/*
-    
-    .header_item>a:hover{
-        
-    }*/
     #header_img{
         opacity: 1;
         width: 100%;
@@ -74,13 +72,14 @@
     #topic{
         color: white;
         font-family: 'SCoreDream-500';
-        background: linear-gradient(180deg, rgba(1, 1, 1) 0%, rgb(30, 9, 92) 100%);
-        height: 100vh;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgb(145, 145, 145) 100%);
+        background-blend-mode: overlay;
+        /*height: 100vh;*/
         margin-top: 10vh;
         margin-left: 5vw;
         margin-right: 5vw;
         margin-bottom: 5vh;
-        height: 90%;
+        /*height: 90%;*/
         box-sizing: border-box;
         border-style: solid 1px transparent;
         border-radius: 20px;
@@ -88,7 +87,9 @@
     }
     .topic_item{
         padding-top: 5vh;
-        padding-left:5vw;
+        text-align: center;
+        opacity: 0;
+        transition: all 1s;
     }
 
 
@@ -96,11 +97,12 @@
     .topic_time{
         padding-top: 5vh;
         text-align: center;
+        transition: all 1s;
     }
-
+    /*
     #topic>p>a{
         color: white;
-        font-family: 'SCoreDream-200';
+        font-family: 'SCoreDream-500';
         border-style: solid;
         border-color:white;
         border-inline-color: lightgray ;
@@ -111,9 +113,9 @@
     #topic>p>a:hover{
         background-color: white;
         color: black;
-    }
-
-    .menu{
+    }*/
+    
+    .foodmenu{
         display: flex;
         flex-wrap: nowrap;
         justify-content: space-around;
@@ -121,15 +123,18 @@
         text-align: center;
         margin: 0;
         padding: 0;
+        align-items: center;
+        opacity: 0;
+        transition: all 1s;
     }
-    .menu li{
+    .foodmenu li{
         margin: 0;
         padding: 0;
     }
 
     @media all and (max-width:767px) {
         #header>ul>li{
-            font-size: 20px;
+            font-size: 15px;
             position: relative;
             top: 0%;
         }
@@ -150,7 +155,7 @@
 
     @media all and (min-width:768px) and (max-width:1536px){
         #header>ul>li{
-            font-size: 50px;
+            font-size: 30px;
             position: relative;
             top: 0%;
         }

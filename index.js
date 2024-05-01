@@ -16,7 +16,7 @@ let Day = today.getDate();
 let Hour = today.getHours();
 let Minute = today.getMinutes();
 let Second = today.getSeconds();
-
+let topic_item = [];
 
 let todayurl = `https://hyoyang.goeic.kr/meal/view.do?menuId=9562&year=${Year}&month=${Month}&day=${Day}`;
 console.log(todayurl);
@@ -49,13 +49,11 @@ function templateHTML(title, css, img, topic_item, topic1){
         <style>
         ${css}
         </style>
-        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
     </head>
     <body>
         <div id="header">
-            <div>
-                <a href='https://postimg.cc/HrhP69jB' target='_blank' ><img src='https://i.postimg.cc/1RBKksRK/COSA.png' border='0' alt='COSA' id="header_img" /></a>
-            </div>
             <ul>
                 <li class="header_item"><a href="/?id=HOME">HOME</a></li>
                 <li class="header_item"><a href="/?id=INFO">INFO</a></li>
@@ -64,16 +62,65 @@ function templateHTML(title, css, img, topic_item, topic1){
                 <li class="header_item"><a href="/?id=UPDATE">UPDATE</a></li>
             </ul>
         </div>
+        <div>${img}</div>
         <div id="topic">
             ${topic1}
             ${topic_item.join('')}
         </div>
+        <script>
+        
+        let header_items = document.querySelectorAll('.header_item');
+        let topic_items = document.querySelectorAll('.topic_item');
+        let observerOn = new IntersectionObserver((e)=>{
+            e.forEach((box)=>{
+                box.target.style.opacity = 1;
+            })
+        })
+        for(let i = 0;i<header_items.length;i++){
+            setTimeout(()=>{
+                observerOn.observe(header_items[i]);
+            }, 100+i*100);
+        }
+        setTimeout(()=>{
+            for(let i = 0;i<topic_items.length;i++){
+                observerOn.observe(topic_items[i]);
+            }
+            observerOn.observe(document.querySelector('.foodmenu'));
+        }, 500);
+        gsap.registerPlugin(ScrollTrigger);
+        function setScrollTrigger(e){
+            e.forEach((box)=>{
+                gsap.to(box, {
+                    scrollTrigger: {
+                        trigger: box,
+                        start: "20% 80%",
+                        end: "60% 90%",
+                        scrub: true,
+                        //markers: true, 
+                    },
+                    opacity: 1,                 
+                    y: -100,
+                    duration: 0.01,
+                });
+            });
+            
+        }
+        setScrollTrigger(['.topic_item', '.foodmenu', '.topic_time']);
+        
+        </script>
             
     </body>
     </html>
     `;
     return template;
 }
+
+/*<div>
+                <a href='/?id=HOME' target='_blank' ><img src='COSALOGO.png' border='0' alt='COSA' id="header_img" /></a>
+                
+                </div>*/
+
+
 
 function readCSS(){
     let csslist = fs.readdirSync('./css');
@@ -85,13 +132,11 @@ function readCSS(){
 }
 
 function settopic(dir){
-    let topic_item = [];
     let topic_itemList = fs.readdirSync(`./${dir}`);
     for(let i = 0 ; i < topic_itemList.length ; i++){
         var item = fs.readFileSync(`${dir}/${topic_itemList[i]}`, 'utf8');
         topic_item.push(item);
     }
-    return topic_item;
 }
 
 var app = http.createServer(function(req, res){
@@ -129,15 +174,14 @@ var app = http.createServer(function(req, res){
             })       
             
             let img = `<img src="https://ifh.cc/g/NG2PS7.png" alt="banner">`;
-            let topic_item = [];
+            topic_item = [];
             let title = "COSA-";
             if(queryData.id === "HOME"){
                 title += `${queryData.id}`;
-                topic_item.push('test');
-                topic_item.push(settopic('topic_items'));
+                settopic('topic_items');
                 let todayLunchMenu = fs.readFileSync('todayLunchMenu.txt', 'utf8');
                 let todayDinnerMenu = fs.readFileSync('todayDinnerMenu.txt', 'utf8');
-                topic_item.push(`<ul class="menu"><li id="menu_introtext">오늘의 급식 →</li> <li>중식 : ${todayLunchMenu}</li><li>석식 : ${todayDinnerMenu}</li></span>`);
+                topic_item.push(`<ul class="foodmenu"><li id="menu_introtext">오늘의 급식 →</li> <li>중식 : ${todayLunchMenu}</li><li>석식 : ${todayDinnerMenu}</li></span>`);
                 res.writeHead(200);
                 res.end(templateHTML(title, readCSS(), img, topic_item, `<p class="topic_time">Time of the Site : ${Year}-${Month}-${Day}</p>`));
             }       
@@ -148,25 +192,25 @@ var app = http.createServer(function(req, res){
                 COSA의 CO는 Computer Science에서<br>
                 A는 Artifical intelligence에서 따왔습니다`);
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item));
+                res.end(templateHTML(title, readCSS(), img, topic_item, ""));
             }
             else if(queryData.id === 'EVENT'){
                 title += `${queryData.id}`;
                 topic_item.push("임시창");
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item));
+                res.end(templateHTML(title, readCSS(), img, topic_item, ""));
             }
             else if(queryData.id === 'STUDY'){
                 title += `${queryData.id}`;
-                topic_item.push("임시창");    
+                settopic('study_items'); 
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item));
+                res.end(templateHTML(title, readCSS(), img, topic_item, ""));
             }
             else if(queryData.id === 'UPDATE'){
                 title += `${queryData.id}`;
-                topic_item = settopic('update_items');    
+                settopic('update_items');    
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item));
+                res.end(templateHTML(title, readCSS(), img, topic_item, ""));
             }
             else if(queryData.id === undefined){
                 res.writeHead(302, {location: `/?id=HOME`});
