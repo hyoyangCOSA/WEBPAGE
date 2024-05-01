@@ -81,12 +81,6 @@ function templateHTML(title, css, img, topic_item, topic1){
                 observerOn.observe(header_items[i]);
             }, 100+i*100);
         }
-        setTimeout(()=>{
-            for(let i = 0;i<topic_items.length;i++){
-                observerOn.observe(topic_items[i]);
-            }
-            observerOn.observe(document.querySelector('.foodmenu'));
-        }, 500);
         gsap.registerPlugin(ScrollTrigger);
         function setScrollTrigger(e){
             e.forEach((box)=>{
