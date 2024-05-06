@@ -1,29 +1,35 @@
-    body{
+    body {
         background-color: rgb(0, 0, 0);
         background-size: cover;
         width: 100vw;
         height: 100vh;
-        margin: 0;   
+        margin: 0;
     }
-    body>div>img{
+
+    body>div>img {
         display: block;
         width: 100%;
         max-width: 100%;
         /*transition: 0.5s;
         opacity: 0;*/
     }
-    a{
-        text-decoration:none;
-        
+
+    a {
+        text-decoration: none;
+
     }
-    #header{
+
+    #header {
         font-family: 'SCoreDream-500';
         padding-top: 2%;
         padding-bottom: 2%;
-        margin-top: 5vh;
-        margin-bottom: 5vh;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+        
     }
-    #header>ul{
+
+    #header>ul {
+        width: 100%;
         display: flex;
         justify-content: space-around;
         list-style-type: none;
@@ -33,14 +39,17 @@
         height: 5vh;
         line-height: 5vh;
     }
-    #header>ul>li{  
+
+    #header>ul>li {
         flex: 1 1 0;
         font-family: 'SCoreDream-500';
-        padding-left:0px;
+        padding-left: 0px;
     }
-    #header ul li a{
+
+    #header ul li a {
         color: white;
     }
+
     /*#header>div{
         float: left;
         width: 50px;
@@ -48,21 +57,26 @@
         color: white;
         text-align: center;
     }*/
-    #header:hover{
+    #header:hover {
         transition: ease-in, 0.3s;
         -webkit-transition: ease-in, 0.3s;
         background-color: rgb(255, 255, 255);
     }
-    #header:not(:hover){
+
+    #header:not(:hover) {
         transition: ease-in, 0.3s;
         -webkit-transition: ease-in, 0.3s;
         background-color: black;
     }
-    #header:hover .header_item>a{
+
+    #header:hover .header_item>a {
         color: black;
-        
+
     }
-    .header_descript{
+
+    .header_descript {
+        position: absolute;
+        position: 1vh;
         transform: translateY(10%);
         opacity: 0;
         width: initial;
@@ -71,22 +85,25 @@
         padding-top: 5%;
         padding-bottom: 3%;
         margin-bottom: 1%;
-        float: inline-start;
+        /*float: inline-start;*/
         color: black;
-        transition:ease-in 0.3s;
+        transition: ease-in 0.3s;
+
     }
-    .header_descript span{
+
+    .header_descript span {
         padding-left: 5%;
     }
-    #header:hover .header_descript{
+
+    #header:hover .header_descript {
         background-color: rgba(255, 255, 255, 0.91);
+        padding-bottom: 5%;
         transform: translateY(20%);
         opacity: 1;
-        height: 100%;
     }
-    
-    
-    .header_item{
+
+
+    .header_item {
         /*background-color: #ffffff;*/
         -webkit-transition: ease-in, 0.3s;
         transition: ease-in, 0.3s;
@@ -96,11 +113,11 @@
 
 
 
-    #topic{
+    #topic {
         color: white;
         font-family: 'SCoreDream-500';
         background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgb(145, 145, 145) 100%);
-        
+
         /*height: 100vh;*/
         margin-top: 10vh;
         margin-left: 5vw;
@@ -112,7 +129,8 @@
         border-radius: 20px;
         padding-bottom: 5vh;
     }
-    .topic_item{
+
+    .topic_item {
         padding-top: 5vh;
         text-align: center;
         opacity: 0;
@@ -121,11 +139,12 @@
 
 
     /*시계*/
-    .topic_time{
+    .topic_time {
         padding-top: 5vh;
         text-align: center;
         transition: all 1s;
     }
+
     /*
     #topic>p>a{
         color: white;
@@ -141,8 +160,8 @@
         background-color: white;
         color: black;
     }*/
-    
-    .foodmenu{
+
+    .foodmenu {
         display: flex;
         flex-wrap: nowrap;
         justify-content: space-around;
@@ -154,69 +173,98 @@
         opacity: 0;
         transition: all 1s;
     }
-    .foodmenu li{
+
+    .foodmenu li {
         margin: 0;
         padding: 0;
     }
 
     @media all and (max-width:767px) {
-        #header>ul>li{
+        #header>ul>li {
             font-size: 15px;
             position: relative;
             top: 0%;
         }
-        #topic{
+
+        #header .header_descript{
+            font-size: 15px;
+        }
+
+        #topic {
             font-size: 20px;
         }
-        #topic>p>a{
+
+        #topic>p>a {
             font-size: 10px;
         }
-        .menu{
+
+        .menu {
             font-size: 10px;
         }
-        .menu:nth-child(0){
-            font-size:25px;
+
+        .menu:nth-child(0) {
+            font-size: 25px;
         }
-    }/*휴대폰*/
+    }
+
+    /*휴대폰*/
 
 
-    @media all and (min-width:768px) and (max-width:1536px){
-        #header>ul>li{
+    @media all and (min-width:768px) and (max-width:1536px) {
+        #header>ul>li {
             font-size: 30px;
             position: relative;
             top: 0%;
         }
-        #topic{
+        #header .header_descript{
+            font-size: 30px;
+        }
+
+        #topic {
             font-size: 40px;
         }
-        #topic>p>a{
+
+        #topic>p>a {
             font-size: 20px;
         }
-        .menu{
+
+        .menu {
             font-size: 20px;
         }
-        .menu:nth-child(0){
-            font-size:40px;
+
+        .menu:nth-child(0) {
+            font-size: 40px;
         }
-    }/*태블릿*/
+    }
+
+    /*태블릿*/
 
 
-    @media all and (min-width:1536px) and (max-width:5000px){
-        #header>ul>li{
+    @media all and (min-width:1536px) and (max-width:5000px) {
+        #header>ul>li {
             font-size: 30px;
             position: relative;
             top: 0%;
         }
-        #topic{
+        #header .header_descript{
             font-size: 30px;
         }
-        #topic>p>a{
+
+        #topic {
+            font-size: 30px;
+        }
+
+        #topic>p>a {
             font-size: 20px;
         }
-        .menu{
+
+        .menu {
             font-size: 20px;
         }
-        .menu:nth-child(0){
-            font-size:20px;
+
+        .menu:nth-child(0) {
+            font-size: 20px;
         }
-    }/*데스크탑*/
+    }
+
+    /*데스크탑*/

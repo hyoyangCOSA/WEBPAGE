@@ -157,12 +157,21 @@ var app = http.createServer(function (req, res) {
                     lunchmenuS = new Set(lunchmenu);
                     lunchmenu = [...lunchmenuS];
                     lunchmenu = lunchmenu.join("<br>");
-                    fs.writeFileSync('todayLunchMenu.txt', lunchmenu);
+
                     dinnermenu = dinnermenu.replace(/\s/g, "").replace(/\d/g, '').replace(/\./g, "").replace(/\"/g, "").replace(/\(|\)/g, '').split("ㆍ");
                     dinnermenuS = new Set(dinnermenu);
                     dinnermenu = [...dinnermenuS];
                     dinnermenu = dinnermenu.join("<br>");
-                    //console.log(dinnermenu);
+                    console.log(lunchmenu, dinnermenu);
+                    if(lunchmenu ==  ''){
+                        lunchmenu = "오늘의 중식은 없습니다";
+
+                    }
+                    if(dinnermenu == ''){
+                        dinnermenu = "오늘의 석식은 없습니다";
+                    }
+                    //console.log(lunchmenu, dinnermenu);
+                    fs.writeFileSync('todayLunchMenu.txt', lunchmenu);
                     fs.writeFileSync('todayDinnerMenu.txt', dinnermenu);
                 })
 
@@ -173,6 +182,7 @@ var app = http.createServer(function (req, res) {
                 title += `${queryData.id}`;
                 settopic('topic_items');
                 let todayLunchMenu = fs.readFileSync('todayLunchMenu.txt', 'utf8');
+                console.log(todayLunchMenu);
                 let todayDinnerMenu = fs.readFileSync('todayDinnerMenu.txt', 'utf8');
                 topic_item.push(`<ul class="foodmenu"><li id="menu_introtext">오늘의 급식 →</li> <li>중식 : ${todayLunchMenu}</li><li>석식 : ${todayDinnerMenu}</li></span>`);
                 res.writeHead(200);
