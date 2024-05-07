@@ -157,16 +157,11 @@ var app = http.createServer(function (req, res) {
                     lunchmenuS = new Set(lunchmenu);
                     lunchmenu = [...lunchmenuS];
                     lunchmenu = lunchmenu.join("<br>");
-<<<<<<< Updated upstream
 
-=======
-                    fs.writeFileSync('todayLunchMenu.txt', lunchmenu);
->>>>>>> Stashed changes
                     dinnermenu = dinnermenu.replace(/\s/g, "").replace(/\d/g, '').replace(/\./g, "").replace(/\"/g, "").replace(/\(|\)/g, '').split("ㆍ");
                     dinnermenuS = new Set(dinnermenu);
                     dinnermenu = [...dinnermenuS];
                     dinnermenu = dinnermenu.join("<br>");
-<<<<<<< Updated upstream
                     console.log(lunchmenu, dinnermenu);
                     if(lunchmenu ==  ''){
                         lunchmenu = "오늘의 중식은 없습니다";
@@ -177,9 +172,6 @@ var app = http.createServer(function (req, res) {
                     }
                     //console.log(lunchmenu, dinnermenu);
                     fs.writeFileSync('todayLunchMenu.txt', lunchmenu);
-=======
-                    //console.log(dinnermenu);
->>>>>>> Stashed changes
                     fs.writeFileSync('todayDinnerMenu.txt', dinnermenu);
                 })
 
