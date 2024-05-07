@@ -59,8 +59,10 @@ function templateHTML(title, css, img, topic_item, topic1) {
                 <li class="header_item"><a href="/?id=UPDATE">UPDATE</a></li>
             </ul>
             <div class="header_descript">
-            <span>임시로 넣은걸까 아닐까</span>
+            <span id="header_descript_main">임시로 넣은걸까 아닐까</span>
             </div>
+            <script>
+            </script>
         </div>
         <div>${img}</div>
         <div id="topic">
@@ -68,9 +70,11 @@ function templateHTML(title, css, img, topic_item, topic1) {
             ${topic_item.join('')}
         </div>
         <script>
-        
         let header_items = document.querySelectorAll('.header_item');
         let topic_items = document.querySelectorAll('.topic_item');
+        let header_descript_main = document.querySelector('#header_descript_main');
+        let header_descript = ["HOME창으로 메인 이슈가 탑재되어 있습니다", "Information창으로 COSA라는 이름의 유래에 대한 정보가 탑재되어 있습니다", 
+                                "EVENT창으로 COSA 관련 행사 및 일정에 관한 정보가 탑재되어있습니다"];
         let observerOn = new IntersectionObserver((e)=>{
             e.forEach((box)=>{
                 box.target.style.opacity = 1;
@@ -100,6 +104,16 @@ function templateHTML(title, css, img, topic_item, topic1) {
             
         }
         setScrollTrigger(['.topic_item', '.foodmenu', '.topic_time']);
+        
+
+        for(let i = 0 ; i < header_items.length;i++){
+            header_items[i].addEventListener('mouseenter', (event) => {
+                header_descript_main.innerHTML = header_descript[i];
+            });
+            /*header_items[i].addEventListener('mouseleave', (event) => {
+                header_descript_main.innerHTML = '';
+            });*/
+        }
         
         </script>
             
@@ -162,7 +176,6 @@ var app = http.createServer(function (req, res) {
                     dinnermenuS = new Set(dinnermenu);
                     dinnermenu = [...dinnermenuS];
                     dinnermenu = dinnermenu.join("<br>");
-                    console.log(lunchmenu, dinnermenu);
                     if(lunchmenu ==  ''){
                         lunchmenu = "오늘의 중식은 없습니다";
 
