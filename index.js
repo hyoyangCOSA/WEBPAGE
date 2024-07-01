@@ -179,7 +179,11 @@ function cacul_rank(total){
         else{
             ranks_m[i]=ranks_M[i-1]+1;
         }
-        ranks_M[i]=ranks_m[i]+ranks_number[i]-1;
+        if(i==8){
+            ranks_M[i]=total}
+        else{
+            ranks_M[i]=ranks_m[i]+ranks_number[i]-1;
+        }
     }
     console.log(ranks_number);
     console.log(ranks_m);
@@ -268,14 +272,14 @@ var app = http.createServer(function (req, res) {
                 let result = []; //계산결과로 도출된 값을 저장할 지역변수 선언
                 topic_item.push( 
                 `<form action="http://localhost:3000/cacul_process" method="post">
-                    <p><input type="text" name="number" placeholder="Number"></p
+                    <p><input type="text" name="number" placeholder="Number"></p>
                     <p><input type="submit"></p>
                 </form>`);
                 if(cacul_number == undefined || cacul_number == 0){
                     topic_item.push(`숫자를 입력해주세요`);
                 }
                 else{
-                    topic_item.push(`${cacul_number}명의 결과`);
+                    topic_item.push(`${cacul_number}명의 결과(오차가 있을 수 있습니다)`);
                     for(i=0;i<9;i++){
                         result.push(`${i+1}등급 : ${ranks_number[i]}명 : ${ranks_m[i]}~${ranks_M[i]}등까지`);
                     }
