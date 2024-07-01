@@ -26,7 +26,7 @@ let Second = today.getSeconds();
 let topic_item = [];
 let cacul_number = 0; //내신등급계산기 인원수를 전역변수로 생성해 app이 초기화 될 때에도 상관 없이 유지
 let todayurl = `https://hyoyang.goeic.kr/meal/view.do?menuId=9562&year=${Year}&month=${Month}&day=${Day}`;
-console.log(todayurl);
+//console.log(todayurl);
 
 
 
