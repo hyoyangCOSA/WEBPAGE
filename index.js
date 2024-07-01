@@ -29,99 +29,111 @@ let todayurl = `https://hyoyang.goeic.kr/meal/view.do?menuId=9562&year=${Year}&m
 console.log(todayurl);
 
 
-function templateHTML(title, css, img, topic_item, topic1) {
 
-    for (let i = 0; i < topic_item.length; i++) {
-        topic_item[i] = `<p class="topic_item">${topic_item[i]}</p>`;
-    }
 
-    let template =
-        `
-    <!DOCTYPE html>
-    <html lang="ko">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${title}</title>
-        <style>
-        ${css}
-        </style>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
-    </head>
-    <body>
-        <div id="header">
-            <ul>
-                <li class="header_item"><a href="/?id=HOME">HOME</a></li>
-                <li class="header_item"><a href="/?id=INFO">INFO</a></li>
-                <li class="header_item"><a href="/?id=EVENT">EVENT</a></li>
-                <li class="header_item"><a href="/?id=STUDY">STUDY</a></li>
-                <li class="header_item"><a href="/?id=UPDATE">UPDATE</a></li>
-            </ul>
-            <div class="header_descript">
-            <span id="header_descript_main">임시로 넣은걸까 아닐까</span>
+let template = {
+    html:function(title, css, img, topic_item, topic1) {
+        for (let i = 0; i < topic_item.length; i++) {
+            topic_item[i] = `<p class="topic_item">${topic_item[i]}</p>`;
+        }
+    
+        return
+            `
+        <!DOCTYPE html>
+        <html lang="ko">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>${title}</title>
+            <style>
+            ${css}
+            </style>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/gsap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.3/ScrollTrigger.min.js"></script>
+        </head>
+        <body>
+            <div id="header">
+                <ul>
+                    <li class="header_item"><a href="/?id=HOME">HOME</a></li>
+                    <li class="header_item"><a href="/?id=INFO">INFO</a></li>
+                    <li class="header_item"><a href="/?id=EVENT">EVENT</a></li>
+                    <li class="header_item"><a href="/?id=STUDY">STUDY</a></li>
+                    <li class="header_item"><a href="/?id=CACUL">CACUL</a></li>
+                    <li class="header_item"><a href="/?id=UPDATE">UPDATE</a></li>
+                </ul>
+                <div class="header_descript">
+                <span id="header_descript_main">임시로 넣은걸까 아닐까</span>
+                </div>
+                <script>
+                </script>
+            </div>
+            <div>${img}</div>
+            <div id="topic">
+                ${topic1}
+                ${topic_item.join('')}
             </div>
             <script>
-            </script>
-        </div>
-        <div>${img}</div>
-        <div id="topic">
-            ${topic1}
-            ${topic_item.join('')}
-        </div>
-        <script>
-        let header_items = document.querySelectorAll('.header_item');
-        let topic_items = document.querySelectorAll('.topic_item');
-        let header_descript_main = document.querySelector('#header_descript_main');
-        let header_descript = ["HOME창으로 메인 이슈가 탑재되어 있습니다", "Information창으로 COSA라는 이름의 유래에 대한 정보가 탑재되어 있습니다", 
-                                "EVENT창으로 COSA 관련 행사 및 일정에 관한 정보가 탑재되어있습니다"];
-        let observerOn = new IntersectionObserver((e)=>{
-            e.forEach((box)=>{
-                box.target.style.opacity = 1;
+            let header_items = document.querySelectorAll('.header_item');
+            let topic_items = document.querySelectorAll('.topic_item');
+            let header_descript_main = document.querySelector('#header_descript_main');
+            let header_descript = ["HOME창으로 메인 이슈가 탑재되어 있습니다", "Information창으로 COSA라는 이름의 유래에 대한 정보가 탑재되어 있습니다", 
+                                    "EVENT창으로 COSA 관련 행사 및 일정에 관한 정보가 탑재되어있습니다"];
+            let observerOn = new IntersectionObserver((e)=>{
+                e.forEach((box)=>{
+                    box.target.style.opacity = 1;
+                })
             })
-        })
-        for(let i = 0;i<header_items.length;i++){
-            setTimeout(()=>{
-                observerOn.observe(header_items[i]);
-            }, 100+i*100);
-        }
-        gsap.registerPlugin(ScrollTrigger);
-        function setScrollTrigger(e){
-            e.forEach((box)=>{
-                gsap.to(box, {
-                    scrollTrigger: {
-                        trigger: box,
-                        start: "20% 80%",
-                        end: "60% 90%",
-                        scrub: true,
-                        //markers: true, 
-                    },
-                    opacity: 1,                 
-                    y: -50,
-                    duration: 0.01,
+            for(let i = 0;i<header_items.length;i++){
+                setTimeout(()=>{
+                    observerOn.observe(header_items[i]);
+                }, 100+i*100);
+            }
+            gsap.registerPlugin(ScrollTrigger);
+            function setScrollTrigger(e){
+                e.forEach((box)=>{
+                    gsap.to(box, {
+                        scrollTrigger: {
+                            trigger: box,
+                            start: "20% 80%",
+                            end: "60% 90%",
+                            scrub: true,
+                            //markers: true, 
+                        },
+                        opacity: 1,                 
+                        y: -50,
+                        duration: 0.01,
+                    });
                 });
-            });
+                
+            }
+            setScrollTrigger(['.topic_item', '.foodmenu', '.topic_time']);
             
-        }
-        setScrollTrigger(['.topic_item', '.foodmenu', '.topic_time']);
-        
-
-        for(let i = 0 ; i < header_items.length;i++){
-            header_items[i].addEventListener('mouseenter', (event) => {
-                header_descript_main.innerHTML = header_descript[i];
-            });
-            /*header_items[i].addEventListener('mouseleave', (event) => {
-                header_descript_main.innerHTML = '';
-            });*/
-        }
-        
-        </script>
+    
+            for(let i = 0 ; i < header_items.length;i++){
+                header_items[i].addEventListener('mouseenter', (event) => {
+                    header_descript_main.innerHTML = header_descript[i];
+                });
+                /*header_items[i].addEventListener('mouseleave', (event) => {
+                    header_descript_main.innerHTML = '';
+                });*/
+            }
             
-    </body>
-    </html>
-    `;
-    return template;
+            </script>
+                
+        </body>
+        </html>
+        `;
+    },
+    list:function(dir) {
+        let topic_itemList = fs.readdirSync(`./${dir}`);
+        for (let i = 0; i < topic_itemList.length; i++) {
+            var item = fs.readFileSync(`${dir}/${topic_itemList[i]}`, 'utf8');
+            topic_item.push(item);
+        }
+    }
 }
+
+
 const getHtmltodaymenu = async () => {
     try {
         return await axios.get(todayurl);
@@ -138,13 +150,6 @@ function readCSS() {
     return css;
 }
 
-function settopic(dir) {
-    let topic_itemList = fs.readdirSync(`./${dir}`);
-    for (let i = 0; i < topic_itemList.length; i++) {
-        var item = fs.readFileSync(`${dir}/${topic_itemList[i]}`, 'utf8');
-        topic_item.push(item);
-    }
-}
 
 var app = http.createServer(function (req, res) {
 
@@ -178,7 +183,6 @@ var app = http.createServer(function (req, res) {
                     dinnermenu = dinnermenu.join("<br>");
                     if(lunchmenu ==  ''){
                         lunchmenu = "오늘의 중식은 없습니다";
-
                     }
                     if(dinnermenu == ''){
                         dinnermenu = "오늘의 석식은 없습니다";
@@ -193,13 +197,13 @@ var app = http.createServer(function (req, res) {
             let title = "COSA-";
             if (queryData.id === "HOME") {
                 title += `${queryData.id}`;
-                settopic('topic_items');
+                template.list('topic_items');
                 let todayLunchMenu = fs.readFileSync('todayLunchMenu.txt', 'utf8');
                 console.log(todayLunchMenu);
                 let todayDinnerMenu = fs.readFileSync('todayDinnerMenu.txt', 'utf8');
                 topic_item.push(`<ul class="foodmenu"><li id="menu_introtext">오늘의 급식 →</li> <li>중식 : ${todayLunchMenu}</li><li>석식 : ${todayDinnerMenu}</li></span>`);
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item, `<p class="topic_time">Time of the Site : ${Year}-${Month}-${Day}</p>`));
+                res.end(template.html(title, readCSS(), img, topic_item, `<p class="topic_time">Time of the Site : ${Year}-${Month}-${Day}</p>`));
             }
             else if (queryData.id === 'INFO') {
                 title += `${queryData.id}`;
@@ -210,25 +214,30 @@ var app = http.createServer(function (req, res) {
                 A는 Artifical intelligence에서 따왔습니다
                 `);
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item, ""));
+                res.end(template.html(title, readCSS(), img, topic_item, ""));
             }
             else if (queryData.id === 'EVENT') {
                 title += `${queryData.id}`;
                 topic_item.push("임시창");
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item, ""));
+                res.end(template.html(title, readCSS(), img, topic_item, ""));
             }
             else if (queryData.id === 'STUDY') {
                 title += `${queryData.id}`;
-                settopic('study_items');
+                template.list('study_items');
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item, ""));
+                res.end(template.html(title, readCSS(), img, topic_item, ""));
+            }
+            else if(queryData.id === 'CACUL'){
+                title += `${queryData.id}`;
+                res.writeHead(200);
+                res.end(template.html(title, readCSS(), img, topic_item, ""));
             }
             else if (queryData.id === 'UPDATE') {
                 title += `${queryData.id}`;
-                settopic('update_items');
+                template.list('update_items');
                 res.writeHead(200);
-                res.end(templateHTML(title, readCSS(), img, topic_item, ""));
+                res.end(template.html(title, readCSS(), img, topic_item, ""));
             }
             else if (queryData.id === undefined) {
                 res.writeHead(302, { location: `/?id=HOME` });
