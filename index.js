@@ -37,7 +37,7 @@ let template = {
             topic_item[i] = `<p class="topic_item">${topic_item[i]}</p>`;
         }
     
-        return
+        let html = 
             `
         <!DOCTYPE html>
         <html lang="ko">
@@ -123,6 +123,7 @@ let template = {
         </body>
         </html>
         `;
+        return html;
     },
     list:function(dir) {
         let topic_itemList = fs.readdirSync(`./${dir}`);
