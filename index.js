@@ -24,7 +24,7 @@ let Hour = today.getHours();
 let Minute = today.getMinutes();
 let Second = today.getSeconds();
 let topic_item = [];
-
+let cacul_number = 0; //내신등급계산기 인원수를 전역변수로 생성해 app이 초기화 될 때에도 상관 없이 유지
 let todayurl = `https://hyoyang.goeic.kr/meal/view.do?menuId=9562&year=${Year}&month=${Month}&day=${Day}`;
 console.log(todayurl);
 
@@ -150,14 +150,48 @@ function readCSS() {
     }
     return css;
 }
-
+let ranks_number = [];//ranks 배열 초기화
+let ranks_m = [];
+let ranks_M = [];
+function cacul_rank(total){
+    
+    for(i=0;i<9;i++){//9번 실행
+        let ratio;
+        if(i==0 || i==8){
+            ratio=0.04;
+        }
+        else if(i==1 || i==7){
+            ratio=0.07;
+        }
+        else if(i==2 || i==6){
+            ratio=0.12;
+        }
+        else if(i==3 || i==5){
+            ratio=0.17
+        }
+        else if(i==4){
+            ratio=0.20;
+        }
+        ranks_number[i]=Math.round(total*ratio);
+        if(i==0){
+            ranks_m[i]=1;
+        }
+        else{
+            ranks_m[i]=ranks_M[i-1]+1;
+        }
+        ranks_M[i]=ranks_m[i]+ranks_number[i]-1;
+    }
+    console.log(ranks_number);
+    console.log(ranks_m);
+    console.log(ranks_M);
+}
 
 var app = http.createServer(function (req, res) {
 
     let _url = req.url
-    let queryData = url.parse(_url, true).query;
+    let queryData = url.parse(_url, true).query;//Url에서 queryData 추출
     let title = queryData.id;
-    let pathname = url.parse(_url, true).pathname;
+    let pathname = url.parse(_url, true).pathname;//Url에서 Pathname 추출
     if (pathname === '/') {
         fs.readFile('index.html', 'utf8', (err, data) => {
 
@@ -231,6 +265,22 @@ var app = http.createServer(function (req, res) {
             }
             else if(queryData.id === 'CACUL'){
                 title += `${queryData.id}`;
+                let result = []; //계산결과로 도출된 값을 저장할 지역변수 선언
+                topic_item.push( 
+                `<form action="http://localhost:3000/cacul_process" method="post">
+                    <p><input type="text" name="number" placeholder="Number"></p
+                    <p><input type="submit"></p>
+                </form>`);
+                if(cacul_number == undefined || cacul_number == 0){
+                    topic_item.push(`숫자를 입력해주세요`);
+                }
+                else{
+                    topic_item.push(`${cacul_number}명의 결과`);
+                    for(i=0;i<9;i++){
+                        result.push(`${i+1}등급 : ${ranks_number[i]}명 : ${ranks_m[i]}~${ranks_M[i]}등까지`);
+                    }
+                    topic_item.push(result.join('<br>'));    
+                }
                 res.writeHead(200);
                 res.end(template.html(title, readCSS(), img, topic_item, ""));
             }
@@ -247,6 +297,22 @@ var app = http.createServer(function (req, res) {
                 res.writeHead(404);
                 res.end("Not Found");
             }
+        });
+        
+    } else if(pathname === "/cacul_process") {//내신계산기 Method신호를 받기 위한 메소드
+        let body = '';
+        let post = '';
+        req.on('data', (data)=>{//data를 긁어와서 콜백함수 실행
+            body += data;//body값에 data를 추가
+        });
+        req.on('end', ()=>{
+            post = qs.parse(body);
+            cacul_number = parseInt(post.number);
+            console.log(cacul_number);
+            cacul_rank(cacul_number);
+            res.writeHead(302, {location: `/?id=CACUL`});
+            res.end('success');
+            
         });
     } else { //Not found
         res.writeHead(404);
