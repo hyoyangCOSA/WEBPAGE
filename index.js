@@ -196,6 +196,8 @@ var app = http.createServer(function (req, res) {
     let queryData = url.parse(_url, true).query;//Url에서 queryData 추출
     let title = queryData.id;
     let pathname = url.parse(_url, true).pathname;//Url에서 Pathname 추출
+    let protocol = url.parse(_url, true).protocol;//Url에서 Protocol 추출
+    let domain = url.parse(_url, true).domain;//Url에서 Domain 추출
     if (pathname === '/') {
         fs.readFile('index.html', 'utf8', (err, data) => {
 
@@ -271,7 +273,7 @@ var app = http.createServer(function (req, res) {
                 title += `${queryData.id}`;
                 let result = []; //계산결과로 도출된 값을 저장할 지역변수 선언
                 topic_item.push( 
-                `<form action="http://localhost:3000/cacul_process" method="post">
+                `<form action="${protocol}://${domain}/cacul_process" method="post">
                     <p><input type="text" name="number" placeholder="Number"></p>
                     <p><input type="submit"></p>
                 </form>`);
